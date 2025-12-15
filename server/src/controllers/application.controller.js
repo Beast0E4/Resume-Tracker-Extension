@@ -1,7 +1,8 @@
 import {
   createApplicationService,
   getAllApplicationsService,
-  updateApplicationStatusService
+  updateApplicationStatusService,
+  deleteApplicationService
 } from "../services/application.services.js";
 
 export const createApplication = async (req, res) => {
@@ -31,6 +32,16 @@ export const updateApplicationStatus = async (req, res) => {
       await updateApplicationStatusService(id, status);
 
     res.status(200).json(updatedApplication);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await deleteApplicationService(id);
+    res.status(204).send();
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

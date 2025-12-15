@@ -33,3 +33,10 @@ export const updateApplicationStatusService = async (id, status) => {
 
   return updatedApplication;
 };
+
+export const deleteApplicationService = async (id) => {
+  const deleted = await Application.findByIdAndDelete(id);
+  if (!deleted) {
+    throw new Error("Application not found");
+  }
+};

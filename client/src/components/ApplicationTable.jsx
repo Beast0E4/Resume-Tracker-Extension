@@ -1,6 +1,27 @@
 import StatusBadge from "./StatusBadge";
+import { deleteApplication } from "../api/application.api";
 
-export default function ApplicationTable({ applications }) {
+export default function ApplicationTable({ applications, setApplications }) {
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this application?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      // Optimistic UI
+      setApplications((prev) =>
+        prev.filter((app) => app._id !== id)
+      );
+
+      await deleteApplication(id);
+    } catch (error) {
+      console.error("Failed to delete application", error);
+      alert("Delete failed. Please refresh.");
+    }
+  };
+
   return (
     <div className="mt-8 overflow-x-auto">
       <div className="rounded-2xl bg-gradient-to-br from-indigo-50 via-white to-emerald-50 p-1 shadow-lg">
@@ -19,6 +40,9 @@ export default function ApplicationTable({ applications }) {
                 </th>
                 <th className="px-5 py-4 text-left text-xs font-bold uppercase tracking-wider text-white">
                   Applied
+                </th>
+                <th className="px-5 py-4 text-center text-xs font-bold uppercase tracking-wider text-white">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -46,11 +70,10 @@ export default function ApplicationTable({ applications }) {
                   {/* Status */}
                   <td className="px-5 py-4">
                     <StatusBadge
-                        appId={app._id}
-                        initialStatus={app.status}
+                      appId={app._id}
+                      initialStatus={app.status}
                     />
-                </td>
-
+                  </td>
 
                   {/* Date */}
                   <td className="px-5 py-4">
@@ -60,6 +83,17 @@ export default function ApplicationTable({ applications }) {
                         month: "short"
                       })}
                     </span>
+                  </td>
+
+                  {/* Delete */}
+                  <td className="px-5 py-4 text-center">
+                    <button
+                      onClick={() => handleDelete(app._id)}
+                      className="rounded-full p-2 text-red-600 hover:bg-red-100 transition"
+                      title="Delete"
+                    >
+                      🗑️
+                    </button>
                   </td>
                 </tr>
               ))}
