@@ -70,32 +70,33 @@ This project solves that by **automatically detecting job applications in the br
 
 ## 📁 Project Structure
 
+```bash
 root/
-├─ extension/ # Chrome Extension
-│ ├─ manifest.json
-│ ├─ content.js
-│ ├─ popup.html
-│ └─ popup.js
+├─ extension/        # Chrome Extension
+│  ├─ manifest.json
+│  ├─ content.js
+│  ├─ popup.html
+│  └─ popup.js
 │
 ├─ backend/
-│ ├─ index.js
-│ ├─ app.js
-│ ├─ config/
-│ ├─ models/
-│ ├─ routes/
-│ ├─ controllers/
-│ └─ services/
+│  ├─ index.js
+│  ├─ app.js
+│  ├─ config/
+│  ├─ models/
+│  ├─ routes/
+│  ├─ controllers/
+│  └─ services/
 │
 ├─ client/
-│ ├─ src/
-│ │ ├─ api/
-│ │ ├─ components/
-│ │ ├─ pages/
-│ │ └─ App.jsx
-│ └─ package.json
+│  ├─ src/
+│  │  ├─ api/
+│  │  ├─ components/
+│  │  ├─ pages/
+│  │  └─ App.jsx
+│  └─ package.json
 │
 └─ README.md
-
+```
 
 ---
 
