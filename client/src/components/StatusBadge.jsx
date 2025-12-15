@@ -1,31 +1,47 @@
-export default function StatusBadge({ status }) {
-  const statusStyles = {
-    Applied: {
-      backgroundColor: "#FEF3C7",
-      color: "#92400E"
-    },
-    Interview: {
-      backgroundColor: "#DBEAFE",
-      color: "#1E40AF"
-    },
-    Rejected: {
-      backgroundColor: "#FEE2E2",
-      color: "#991B1B"
-    },
-    Offer: {
-      backgroundColor: "#DCFCE7",
-      color: "#166534"
+import { useState } from "react";
+import { updateApplicationStatus } from "../api/application.api";
+
+const statusStyles = {
+  Applied: "bg-blue-100 text-blue-700",
+  Interview: "bg-yellow-100 text-yellow-700",
+  Rejected: "bg-red-100 text-red-700",
+  Offer: "bg-green-100 text-green-700"
+};
+
+export default function StatusBadge({ appId, initialStatus }) {
+  const [status, setStatus] = useState(initialStatus);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = async (e) => {
+    const newStatus = e.target.value;
+    setStatus(newStatus); // optimistic update
+    setLoading(true);
+
+    console.log (appId, initialStatus, newStatus);
+
+    try {
+      await updateApplicationStatus(appId, newStatus);
+    } catch (err) {
+      console.error("Failed to update status", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const style = {
-    padding: "4px 10px",
-    borderRadius: "999px",
-    fontSize: "12px",
-    fontWeight: 600,
-    display: "inline-block",
-    ...statusStyles[status]
-  };
-
-  return <span style={style}>{status}</span>;
+  return (
+    <select
+      value={status}
+      onChange={handleChange}
+      disabled={loading}
+      className={`rounded-full px-3 py-1 text-xs font-semibold outline-none transition
+        ${statusStyles[status]}
+        ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
+      `}
+    >
+      <option value="Applied">Applied</option>
+      <option value="Interview">Interview</option>
+      <option value="Rejected">Rejected</option>
+      <option value="Offer">Offer</option>
+    </select>
+  );
 }

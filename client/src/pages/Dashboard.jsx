@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>My Job Applications</h2>
+      <h2 className="text-5xl font-bold">My Job Applications</h2>
       <ApplicationTable applications={applications} />
     </div>
   );
