@@ -1,3 +1,5 @@
+import CONFIG from './config'
+
 const container = document.getElementById("content");
 
 // 1️⃣ Read data from Chrome storage (SYNC callback)
@@ -59,7 +61,7 @@ chrome.storage.local.get("lastApplication", (data) => {
         console.log("Saving edited application:", updatedApp);
 
         const res = await fetch(
-            "http://localhost:8080/api/applications",
+            `${CONFIG.API_BASE_URL}`,
             {
             method: "POST",
             headers: {
@@ -74,11 +76,11 @@ chrome.storage.local.get("lastApplication", (data) => {
         }
 
         document.getElementById("status").innerText =
-            "✅ Application saved successfully!";
+            "Application saved successfully!";
         } catch (error) {
         console.error(error);
         document.getElementById("status").innerText =
-            "❌ Failed to save application";
+            "Failed to save application";
         }
     })();
     });

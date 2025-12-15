@@ -6,7 +6,6 @@ import {
 
 export const createApplication = async (req, res) => {
   try {
-    console.log (req.body);
     const application = await createApplicationService(req.body);
     res.status(201).json(application);
   } catch (error) {
