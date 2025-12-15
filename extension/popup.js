@@ -1,7 +1,7 @@
 const container = document.getElementById("content");
 
-// 1️⃣ Read data from Chrome storage
-chrome.storage.local.get("lastApplication", async (data) => {
+// 1️⃣ Read data from Chrome storage (SYNC callback)
+chrome.storage.local.get("lastApplication", (data) => {
   if (!data.lastApplication) {
     container.innerText = "No application detected yet.";
     return;
@@ -18,23 +18,34 @@ chrome.storage.local.get("lastApplication", async (data) => {
     <p id="status"></p>
   `;
 
-  // 3️⃣ Save to backend using AXIOS
-  document.getElementById("save").addEventListener("click", async () => {
-    try {
-      await axios.post("http://localhost:8080/api/applications", app,
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
+  // 3️⃣ Save to backend using FETCH
+  document.getElementById("save").addEventListener("click", () => {
+    (async () => {
+      try {
+        console.log("Saving application:", app);
 
-      document.getElementById("status").innerText =
-        "✅ Application saved successfully!";
-    } catch (error) {
-      console.error(error);
-      document.getElementById("status").innerText =
-        "❌ Failed to save application";
-    }
+        const res = await fetch(
+          "http://localhost:8080/api/applications",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(app)
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        document.getElementById("status").innerText =
+          "✅ Application saved successfully!";
+      } catch (error) {
+        console.error("Save failed:", error);
+        document.getElementById("status").innerText =
+          "❌ Failed to save application";
+      }
+    })();
   });
 });
