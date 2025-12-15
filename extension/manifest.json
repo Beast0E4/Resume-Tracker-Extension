@@ -10,7 +10,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.linkedin.com/*", "*://*.indeed.com/*"],
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.indeed.com/*",
+        "*://*.naukri.com/*"
+        ],
+
       "js": ["content.js"]
     }
   ]

@@ -1,4 +1,4 @@
-import Application from "../models/application.model";
+import Application from "../models/application.model.js";
 
 export const createApplicationService = async (data) => {
   if (!data.company || !data.role || !data.jobUrl || !data.appliedAt) {

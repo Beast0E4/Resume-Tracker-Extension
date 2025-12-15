@@ -1,7 +1,7 @@
 import {
   createApplicationService,
   getAllApplicationsService
-} from "../services/application.services";
+} from "../services/application.services.js";
 
 export const createApplication = async (req, res) => {
   try {
