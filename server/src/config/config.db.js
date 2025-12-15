@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 
+const MONGO_DB_URL = process.env.MONGO_DB_URL;
+
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/job-tracker");
+    await mongoose.connect(MONGO_DB_URL);
     console.log("MongoDB connected");
   } catch (error) {
     console.error("DB connection failed", error);
